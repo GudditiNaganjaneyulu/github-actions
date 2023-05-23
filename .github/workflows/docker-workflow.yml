@@ -1,26 +1,22 @@
-name: Docker Build and Push
-on:
+name: docker build and push
+on: 
   push:
     branches:
       - main
 
 env:
   BUILD_NUMBER: ${{ github.run_number }}
-
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: docker version check
+      - name: docker version check 
         run: docker --version
-      - name: Build and push
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          push: true
-          tags: gudditi/apache-resume:${BUILD_NUMBER}
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: docker build 
+        run: |
+          docker build -t gudditi/apache-resume:${BUILD_NUMBER} .
+          docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+          docker push gudditi/apache-resume:${BUILD_NUMBER} 
+
