@@ -12,7 +12,9 @@ jobs:
     needs: sample-job1
     steps:
       - name: hello world
-        run: echo "Hello Github actions" > hello.html
+        run: |
+          echo "Hello Github actions" > hello.html
+          cat hello.html
 
 
   
