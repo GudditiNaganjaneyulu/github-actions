@@ -1,0 +1,10 @@
+name: sample-action
+on: [push]
+
+jobs:
+  sample-job:
+    runs-on: ubuntu
+    steps:
+      name: hello world
+      run: |
+        echo "hello Github actions" 
