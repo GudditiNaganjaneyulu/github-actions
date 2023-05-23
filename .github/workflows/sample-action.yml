@@ -7,5 +7,4 @@ jobs:
     steps:
       - name: hello world
         run: echo "Hello Github actions"
-        command: echo "Hello Github actions"
          
