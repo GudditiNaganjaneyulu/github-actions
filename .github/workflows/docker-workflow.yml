@@ -1,9 +1,8 @@
-name: docker build and push
-on: 
+name: Docker Build and Push
+on:
   push:
     branches:
       - main
-
 
 jobs:
   build:
@@ -11,10 +10,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: docker version check 
+      - name: Set build number
+        id: build_number
+        run: echo "BUILD_NUMBER=${{ github.run_number }}" >> $GITHUB_ENV
+      - name: docker version check
         run: docker --version
-      - name: docker build 
-        run: docker build -t gudditi/apache-resume .
+      - name: docker build
+        run: docker build -t gudditi/apache-resume:${{ env.BUILD_NUMBER }} .
 
   deploy:
     runs-on: ubuntu-latest
@@ -36,4 +38,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: gudditi/apache-resume:latest
+          tags: gudditi/apache-resume:${{ env.BUILD_NUMBER }}
