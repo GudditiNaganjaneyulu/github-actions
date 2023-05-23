@@ -1,6 +1,14 @@
 name: docker build and push
-on: [main]
-on: [push]
+on:
+  pull:
+    branches:
+      - main
+        master
+  pull_request:
+    branches:
+      - main
+        master
+
 
 jobs:
   build:
