@@ -2,9 +2,16 @@ name: sample-action
 on: [push]
 
 jobs:
-  sample-job:
+  sample-job1:
     runs-on: ubuntu-latest
     steps:
       - name: hello world
         run: echo "Hello Github actions"
+  sample-job2:
+    runs-on: ubuntu-latest
+    steps:
+      - name: hello world
+        run: echo "Hello Github actions" > hello.html
+
+  
          
