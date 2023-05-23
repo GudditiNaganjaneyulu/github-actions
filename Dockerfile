@@ -1,20 +1,11 @@
-# Use a base image with Java and Tomcat installed
-FROM tomcat:8-jdk8-openjdk-alpine
+# Use a base image with Apache HTTP Server installed
+FROM httpd:2.4
 
 # Set the working directory
-WORKDIR /app
+WORKDIR /usr/local/apache2/htdocs
 
-# Copy the Java code to the working directory
+# Copy the HTML file to the working directory
 COPY . .
 
-# Build the Java code and package it into a WAR file
-RUN ./gradlew build
-
-# Copy the WAR file to the Tomcat webapps directory
-RUN cp build/libs/*.war /usr/local/tomcat/webapps/
-
-# Expose port 8080
-EXPOSE 8080
-
-# Start Tomcat
-CMD ["catalina.sh", "run"]
+# Expose port 80
+EXPOSE 80

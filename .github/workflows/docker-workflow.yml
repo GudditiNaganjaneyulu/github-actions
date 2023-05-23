@@ -14,4 +14,4 @@ jobs:
       - name: docker version check 
         run: docker --version
       - name: docker build 
-        run: docker build -t gudditi/tomcat-resume .
+        run: docker build -t gudditi/apache-resume .
