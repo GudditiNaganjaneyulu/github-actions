@@ -9,9 +9,11 @@ jobs:
         run: echo "Hello Github actions"
   sample-job2:
     runs-on: ubuntu-latest
+    needs: sample-job1
     steps:
       - name: hello world
         run: echo "Hello Github actions" > hello.html
+
 
   
          
