@@ -1,0 +1,10 @@
+name: docker build and push
+on: [main]
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: docker version check 
+        run: docker --version
