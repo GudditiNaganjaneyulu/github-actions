@@ -1,8 +1,16 @@
 name: docker build and push
+steps:
+  - name: 
+    run: echo "Hello docker world"
+  - name:
+    run: |
+      echo "docker is open-source" > log.txt
+      ls -ltr 
 on: 
   push:
     branches:
       - main
+      - 'test/*'
 
 env:
   BUILD_NUMBER: ${{ github.run_number }}
@@ -12,6 +20,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        - steps*
       - name: docker version check 
         run: docker --version
       - name: docker build 
@@ -19,4 +28,5 @@ jobs:
           docker build -t gudditi/apache-resume:${BUILD_NUMBER} .
           docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
           docker push gudditi/apache-resume:${BUILD_NUMBER} 
+          
 
