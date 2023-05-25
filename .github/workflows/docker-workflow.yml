@@ -1,11 +1,5 @@
 name: docker build and push
-steps:
-  - name: 
-    run: echo "Hello docker world"
-  - name:
-    run: |
-      echo "docker is open-source" > log.txt
-      ls -ltr 
+
 on: 
   push:
     branches:
