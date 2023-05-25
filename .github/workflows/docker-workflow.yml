@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - 'test/*'
+  workflow_dispatch:
 
 env:
   BUILD_NUMBER: ${{ github.run_number }}
