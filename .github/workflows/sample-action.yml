@@ -1,5 +1,9 @@
 name: sample-action
-on: [push]
+on: 
+  push:
+    branches:
+      - main
+      - 'test/*'
 
 jobs:
   sample-job1:
