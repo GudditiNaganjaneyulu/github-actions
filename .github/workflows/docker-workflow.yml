@@ -20,7 +20,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        - steps*
+ 
       - name: docker version check 
         run: docker --version
       - name: docker build 
