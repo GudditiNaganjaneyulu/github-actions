@@ -1,20 +1,12 @@
-name: Clone Repository
-
 on:
   push:
     branches:
-      - test
+      - test  # Adjust the branch name if needed
 
 jobs:
-  clone:
+  call-clone-and-install:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-        with:
-          repository: GudditiNaganjaneyulu/RIkoouu
-          token: ${{ secrets.ACCESS_TOKEN }}
-
-      - name: List Repository Contents
-        run: ls -la
+      - name: Trigger Clone and Install Infra Workflow
+        uses: ./.github/workflows/build-test.yml
