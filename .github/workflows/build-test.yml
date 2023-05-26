@@ -1,48 +1,26 @@
-name: Build and Deploy
+name: Install Infra
 
 on:
-
   push:
-
     branches:
-
-      - main
-
-      - 'testing/*'
-
-      - 'staging/*'
-
-      - 'production/*'
-
-  workflow_dispatch:
+      - test
 
 jobs:
-
-  build:
-
+  install_infra:
     runs-on: ubuntu-latest
 
-    strategy:
-
-      matrix:
-
-        node-version: [18.15]
-
     steps:
-
-      - name: Checkout
-
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-
-        uses: actions/setup-node@v2
-
+      - name: Restore npm cache
+        uses: actions/cache@v2
         with:
+          path: node_modules
+          key: v1-infra-npm-${{ hashFiles('package-lock.json') }}
 
-          node-version: ${{ matrix.node-version }}
+      - name: npm install
+        run: npm install --no-save
 
-      - name: Build and Test
-
-        uses: ./.github/actions/workflow.yml
-
+      - name: Save npm cache
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: v1-infra-npm-${{ hashFiles('package-lock.json') }}
