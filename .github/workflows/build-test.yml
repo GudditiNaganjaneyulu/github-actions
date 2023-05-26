@@ -1,4 +1,4 @@
-name: Clone Repository
+name: clone and install infra
 
 on:
   push:
