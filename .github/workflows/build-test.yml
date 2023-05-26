@@ -1,9 +1,7 @@
 name: clone and install infra
 
 on:
-  push:
-    branches:
-      - test  # Adjust the branch name if needed
+  workflow_dispatch:
 
 jobs:
   clone:
