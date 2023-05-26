@@ -1,41 +1,20 @@
-name: docker images build
-
+name: docker test
 on:
-
   push:
-
     branches:
-
       - main
-
-      - 'testing/*'
-
-      - 'staging/*'
-
-      - 'production/*'
-
   workflow_dispatch:
-
 jobs:
-
-  build:
-
+  docker-build:
     runs-on: ubuntu-latest
-
-    strategy:
-
-      matrix:
-
-        node-version: [18.15]
-
     steps:
-
-      - name: Checkout
-
+      - name: checkout code
         uses: actions/checkout@v2
       - name: Build and test
-        if: ${{ parameters.test }}
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
-          LOCAL_IMAGE_TEST=${{ env.IMAGE_NAME }}-test:${{ github.sha }}
+          LOCAL_IMAGE_TEST=$IMAGE_NAME-test:$GITHUB_SHA
           docker build -t $LOCAL_IMAGE_TEST .
+          docker run -t --rm $LOCAL_IMAGE_TEST npm run coverage
 
+      
