@@ -1,6 +1,9 @@
 name: clone and install infra
 
 on:
+  push:
+    blanches:
+      - test
   workflow_dispatch:
 
 jobs:
