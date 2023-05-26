@@ -17,7 +17,9 @@ jobs:
           token: ${{ secrets.ACCESS_TOKEN }}  # Access token stored as a secret
 
       - name: npm install
-        run: npm install --no-save
+        run: |
+          ls -lrt        
+          npm install --no-save
 
       - name: Save npm cache
         uses: actions/cache@v2
