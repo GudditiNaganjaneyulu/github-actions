@@ -13,16 +13,12 @@ jobs:
       - name: Checkout main repository
         uses: actions/checkout@v2
 
-      - name: Remove existing directory
-        run: |
-          rm -rf ./RIkoouu
-
       - name: Checkout other repository
         run: |
           mkdir -p ~/.ssh/
           echo "${{ secrets.ACTIONS_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan github.com >> ~/.ssh/known_hosts
-          git clone git@github.com:GudditiNaganjaneyulu/RIkoouu.git .
+          git clone git@github.com:GudditiNaganjaneyulu/RIkoouu.git ./RIkoouu_clone
 
       # Add additional steps or actions here to work with the repositories
