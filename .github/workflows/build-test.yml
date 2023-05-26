@@ -1,4 +1,4 @@
-name: Build and Deploy
+name: docker images build
 
 on:
 
@@ -33,16 +33,9 @@ jobs:
       - name: Checkout
 
         uses: actions/checkout@v2
-
-      - name: Set up Node.js
-
-        uses: actions/setup-node@v2
-
-        with:
-
-          node-version: ${{ matrix.node-version }}
-
-      - name: Build and Test
-
-        uses: ./.github/actions/workflow.yml
+      - name: Build and test
+        if: ${{ parameters.test }}
+        run: |
+          LOCAL_IMAGE_TEST=${{ env.IMAGE_NAME }}-test:${{ github.sha }}
+          docker build -t $LOCAL_IMAGE_TEST .
 
