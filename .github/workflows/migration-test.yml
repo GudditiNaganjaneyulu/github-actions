@@ -16,10 +16,11 @@ jobs:
     strategy:
       matrix:
         node-version: [18.15]
+    steps:
 
-    - name: Checkout infra repository
-      uses: actions/checkout@v2
-      with:
-        repository: GudditiNaganjaneyulu/RIkoouu
-        token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout infra repository
+        uses: actions/checkout@v2
+        with:
+          repository: GudditiNaganjaneyulu/RIkoouu
+          token: ${{ secrets.GITHUB_TOKEN }}
 
