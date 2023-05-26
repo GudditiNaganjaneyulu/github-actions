@@ -1,12 +1,1 @@
-on:
-  push:
-    branches:
-      - test  # Adjust the branch name if needed
 
-jobs:
-  call-clone-and-install:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Trigger Clone and Install Infra Workflow
-        uses: ./.github/workflows/build-test.yml
