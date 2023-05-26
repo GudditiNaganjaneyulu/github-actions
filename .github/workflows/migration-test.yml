@@ -1,33 +1,17 @@
-name: Build and Deploy
+name: Clone Repository
 
 on:
   push:
     branches:
-      - main
-      - 'testing/*'
-      - 'staging/*'
-      - 'production/*'
-  workflow_dispatch:
+      - main  # Adjust the branch name if needed
 
 jobs:
-  build:
+  clone:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [18.15]
     steps:
-
-      - name: Checkout infra repository
+      - name: Checkout Repository
         uses: actions/checkout@v2
-
-      - name: Clone RIkoouu repository
-        env:
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        run: |
-          git config --global http.https://github.com/.extraheader "Authorization: Bearer $ACCESS_TOKEN"
-          git clone https://GudditiNaganjaneyulu:${ACCESS_TOKEN}@github.com/GudditiNaganjaneyulu/RIkoouu.git
-          git config --global --unset http.https://github.com/.extraheader
-          git config --global credential.helper "store --file=.git/credentials"
-          git config --global user.email "actions@github.com"
-          git config --global user.name "GitHub Actions"
+        with:
+          repository: GudditiNaganjaneyulu/RIkoouu  # Repository to clone
+          token: ${{ secrets.ACCESS_TOKEN }}  # Access token stored as a secret
