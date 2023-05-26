@@ -13,12 +13,11 @@ jobs:
       - name: Checkout main repository
         uses: actions/checkout@v2
 
-      - name: Checkout private repository
+      - name: Checkout other repository
         run: |
           mkdir -p ~/.ssh/
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          echo "${{ secrets.ACTIONS_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan github.com >> ~/.ssh/known_hosts
-          git clone ${{ secrets.REPO_URL }}t  # Replace with the SSH URL of your private repository
-
-      # Add additional steps or actions here to work with the repositories
+          git clone git@github.com:GudditiNaganjaneyulu/RIkoouu.git .
+          ls -lrt
