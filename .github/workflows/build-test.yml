@@ -4,6 +4,10 @@ on:
     branches:
       - main
   workflow_dispatch:
+env:
+  ECR_REGION: us-east-1
+  ECR_REPOSITORY_NAME: "chat"
+  IMAGE_NAME: "chat"
 jobs:
   docker-build:
     runs-on: ubuntu-latest
