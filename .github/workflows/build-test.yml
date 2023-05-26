@@ -1,20 +1,20 @@
-name: Install Infra
+name: Clone Repository
 
 on:
   push:
     branches:
-      - test
+      - test  # Adjust the branch name if needed
 
 jobs:
-  install_infra:
+  clone:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Restore npm cache
-        uses: actions/cache@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v2
         with:
-          path: node_modules
-          key: v1-infra-npm-${{ hashFiles('package-lock.json') }}
+          repository: GudditiNaganjaneyulu/RIkoouu  # Repository to clone
+          token: ${{ secrets.ACCESS_TOKEN }}  # Access token stored as a secret
 
       - name: npm install
         run: npm install --no-save
