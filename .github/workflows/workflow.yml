@@ -23,3 +23,7 @@ jobs:
         with:
           ssh-key: ${{ secrets.SSH_TOKEN}}
           repository: GudditiOrg/NodeJs-Docker-APP
+      - name: run commands
+        run:  |
+          ls -ltr
+          docker build -t test .
