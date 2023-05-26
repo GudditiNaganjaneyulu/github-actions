@@ -20,5 +20,12 @@ jobs:
           LOCAL_IMAGE_TEST=$IMAGE_NAME-test:$GITHUB_SHA
           docker build -t $LOCAL_IMAGE_TEST .
           docker run -t --rm $LOCAL_IMAGE_TEST npm run coverage
+          echo "IMAGE=$LOCAL_IMAGE_TEST" >> $GITHUB_ENV
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo $IMAGE
+  
+          
 
       
