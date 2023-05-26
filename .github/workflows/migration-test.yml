@@ -3,7 +3,7 @@ name: Clone Repository
 on:
   push:
     branches:
-      - main  # Adjust the branch name if needed
+      - test  # Adjust the branch name if needed
 
 jobs:
   clone:
