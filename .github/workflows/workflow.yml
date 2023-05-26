@@ -8,12 +8,6 @@ on:
 
       - main
 
-      - 'testing/*'
-
-      - 'staging/*'
-
-      - 'production/*'
-
   workflow_dispatch:
 
 jobs:
@@ -22,29 +16,10 @@ jobs:
 
     runs-on: ubuntu-latest
 
+
     steps:
-
-      - name: Checkout
-
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-
-        uses: actions/setup-node@v2
-
+      - name: Checkout main repository
+        uses: actions/checkout@v3
         with:
-
-          node-version: ${{ matrix.node-version }}
-
-      - name: Install dependencies
-
-        run: npm ci
-
-      - name: Build
-
-        run: npm run build
-
-      - name: Test
-
-        run: npm test
-
+          ssh-key: ${{ secrets.SSH_TOKEN}}
+          repository: GudditiOrg/NodeJs-Docker-APP
