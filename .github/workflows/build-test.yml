@@ -1,36 +1,39 @@
 name: docker test
+
 on:
   push:
     branches:
       - main
   workflow_dispatch:
+
 env:
   ECR_REGION: us-east-1
   ECR_REPOSITORY_NAME: "chat"
   IMAGE_NAME: "chat"
+  LOCAL_IMAGE_TEST: ""
+
 jobs:
   docker-build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: checkout code
+      - name: Checkout code
         uses: actions/checkout@v2
+
       - name: Build and test
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
-          LOCAL_IMAGE_TEST=$IMAGE_NAME-test:$GITHUB_SHA
+          export LOCAL_IMAGE_TEST=$IMAGE_NAME-test:$GITHUB_SHA
           docker build -t $LOCAL_IMAGE_TEST .
           echo "$LOCAL_IMAGE_TEST"
+          echo "::set-env name=LOCAL_IMAGE_TEST::$LOCAL_IMAGE_TEST"
 
 
   test:
     runs-on: ubuntu-latest
     needs: docker-build
-    steps:
-      - run: |
-          echo $LOCAL_IMAGE_TEST
-          echo "$LOCAL_IMAGE_TEST"
-      
-  
-          
 
-      
+    steps:
+      - name: Retrieve global variable
+        run: |
+          echo ${{ env.LOCAL_IMAGE_TEST }}
