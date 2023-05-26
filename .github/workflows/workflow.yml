@@ -11,17 +11,11 @@ jobs:
 
     steps:
       - name: Checkout main repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+        with:
+          ssh-key: ${{ secrets.SSH_TOKEN}}
+          repository: GudditiOrg/NodeJs-Docker-APP
 
-      - name: Setup SSH
-        run: |
-          mkdir -p ~/.ssh/
-          echo "${{ secrets.ACTIONS_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
 
-      - name: Clone Repository
-        run: |
-          git clone git@github.com:GudditiNaganjaneyulu/RIkoouu.git ./RIkoouu_clone
 
       # Add additional steps or actions here to work with the repositories
