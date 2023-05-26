@@ -3,7 +3,7 @@ name: Clone Repository
 on:
   push:
     branches:
-      - test  # Adjust the branch name if needed
+      - test
 
 jobs:
   clone:
@@ -13,5 +13,8 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
         with:
-          repository: GudditiNaganjaneyulu/RIkoouu  # Repository to clone
-          token: ${{ secrets.ACCESS_TOKEN }}  # Access token stored as a secret
+          repository: GudditiNaganjaneyulu/RIkoouu
+          token: ${{ secrets.ACCESS_TOKEN }}
+
+      - name: List Repository Contents
+        run: ls -la
