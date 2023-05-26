@@ -20,6 +20,7 @@ jobs:
           LOCAL_IMAGE_TEST=$IMAGE_NAME-test:$GITHUB_SHA
           docker build -t $LOCAL_IMAGE_TEST .
           echo "IMAGEID=$LOCAL_IMAGE_TEST" >>  $GITHUB_ENV
+          echo "$IMAGEID"
 
   test:
     runs-on: ubuntu-latest
