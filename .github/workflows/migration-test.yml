@@ -3,10 +3,7 @@ name: Build and Deploy
 on:
   push:
     branches:
-      - main
-      - 'testing/*'
-      - 'staging/*'
-      - 'production/*'
+      - test
   workflow_dispatch:
 
 jobs:
@@ -20,7 +17,10 @@ jobs:
 
       - name: Checkout infra repository
         uses: actions/checkout@v2
-        with:
-          repository: GudditiNaganjaneyulu/RIkoouu
-          token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Clone RIkoouu repository
+        env:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        run: |
+          git config --global http.extraheader "Authorization: Bearer $ACCESS_TOKEN"
+          git clone https://github.com/GudditiNaganjaneyulu/RIkoouu
