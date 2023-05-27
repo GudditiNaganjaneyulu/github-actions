@@ -28,10 +28,29 @@ jobs:
           export LOCAL_IMAGE_TEST=$IMAGE_NAME-test:$GITHUB_SHA
           docker build -t $LOCAL_IMAGE_TEST .
 
+      - name: Store artifact
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: local-image-test
+          path: ${{ steps.build.outputs.LOCAL_IMAGE_TEST }}
+
   another-job:
     needs: docker-build
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: local-image-test
+          path: ${{ github.workspace }}/artifact
+
+      - name: Set input variable
+        run: echo "::set-env name=LOCAL_IMAGE_TEST::${{ env.GITHUB_WORKSPACE }}/artifact/${{ env.IMAGE_NAME }}"
+
       - name: Print output value
-        run: echo ${{ needs.docker-build.outputs.local-image-test }}
+        run: echo $LOCAL_IMAGE_TEST
