@@ -44,4 +44,8 @@ jobs:
 
         SLACK_USERNAME: rtCamp
 
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }} ggg gifts f
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+    - name: run 
+      run: bing ong
+        
+
