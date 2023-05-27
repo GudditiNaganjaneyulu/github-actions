@@ -26,7 +26,9 @@ jobs:
         run: |
           export LOCAL_IMAGE_TEST=$IMAGE_NAME-test:$GITHUB_SHA
           docker build -t $LOCAL_IMAGE_TEST .
-          echo "$LOCAL_IMAGE_TEST" >> "$GITHUB_ENV"
+      - name: Set color
+        id: docker-image-name
+        run: echo "$LOCAL_IMAGE_TEST" >> "$GITHUB_OUTPUT"
 
 
   print-image-name:
@@ -34,4 +36,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - run: echo "${{ env.action_state }}"
+
+      - name: Set the value
+        id: step_one
+        run: |
+          echo "action_state=yellow" >> "$GITHUB_ENV"
+      - name: Use the value
+        id: step_two
+        run: |
+          echo "${{ env.action_state }}" # This will output 'yellow'
