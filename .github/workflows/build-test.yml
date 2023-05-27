@@ -1,29 +1,37 @@
-name: testing
-on: [push]
+name: docker test
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
 env:
-   IMAGE_NAME: "chat"
+  ECR_REGION: us-east-1
+  ECR_REPOSITORY_NAME: "chat"
+  IMAGE_NAME: "chat"
+
 jobs:
-  job1:
+  docker-build:
     runs-on: ubuntu-latest
-    # Map a step output to a job output
     outputs:
-      output1: ${{ steps.step1.outputs.test }}
+      local-image-test: ${{ steps.build.outputs.LOCAL_IMAGE_TEST }}
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       - name: Build and test
         id: build
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           export LOCAL_IMAGE_TEST=$IMAGE_NAME-test:$GITHUB_SHA
           docker build -t $LOCAL_IMAGE_TEST .
-      - id: step1
-        run: echo "test=$LOCAL_IMAGE_TEST" >> "$GITHUB_OUTPUT"
 
-  job2:
+  another-job:
+    needs: docker-build
     runs-on: ubuntu-latest
-    needs: job1
-    steps:
-      - env:
-          OUTPUT1: ${{needs.job1.outputs.output1}}
 
-        run: echo "$OUTPUT1"
+    steps:
+      - name: Print output value
+        run: echo ${{ needs.docker-build.outputs.local-image-test }}
