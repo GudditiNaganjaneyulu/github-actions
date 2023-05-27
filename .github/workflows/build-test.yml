@@ -39,4 +39,4 @@ jobs:
     steps:
       - env:
           OUTPUT1: ${{needs.jobs.outputs.output1}}
-        run: echo ${{needs.jobs.outputs.output1}}
+        run: echo "$OUTPUT1"
