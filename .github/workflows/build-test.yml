@@ -35,4 +35,5 @@ jobs:
 
     steps:
       - name: Print Local Image Test
-        run: echo ${{ needs.docker-build.outputs.local-image-test }} >> $GITHUB_ENV
+        run: echo "${{ needs.docker-build.outputs.local-image-test }}"
+
