@@ -26,7 +26,7 @@ jobs:
         run: |
           export LOCAL_IMAGE_TEST=$IMAGE_NAME-test:$GITHUB_SHA
           docker build -t $LOCAL_IMAGE_TEST .
-          echo "$LOCAL_IMAGE_TEST"
+          echo "$LOCAL_IMAGE_TEST" >> "$GITHUB_ENV"
 
 
   print-image-name:
@@ -34,16 +34,4 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Print image name
-        run: |
-          # Retrieve the value from workflow state
-          local_image_test_state=$(echo "${{ github.event.workflow_run.outputs.local_image_test }}")
-
-          # Print the value from workflow state
-          echo "The image name from state is $local_image_test_state"
-
-          # Retrieve the value from output
-          local_image_test_output=$(echo "${{ needs.docker-build.outputs.local_image_test }}")
-
-          # Print the value from output
-          echo "The image name from output is $local_image_test_output"
+      - run: echo "${{ env.action_state }}"
