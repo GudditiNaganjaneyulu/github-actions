@@ -25,6 +25,7 @@ jobs:
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           export LOCAL_IMAGE_TEST=$IMAGE_NAME-test:$GITHUB_SHA
+          docker build -t $LOCAL_IMAGE_TEST .
       - name: Save value to environment file
         run: echo "LOCAL_IMAGE=$LOCAL_IMAGE_TEST" >> $GITHUB_ENV
 
