@@ -38,7 +38,7 @@ jobs:
         run: echo "${{ needs.docker-build.outputs.local-image-test }}"
       - name: Map Local Image to LOCAL_IMAGE
         run: |
-          echo "LOCAL_IMAGE=${{ needs.docker-build.outputs.local-image-test }}"
+          export "LOCAL_IMAGE=${{ needs.docker-build.outputs.local-image-test }}"
           echo "$LOCAL_IMAGE"
         
 
