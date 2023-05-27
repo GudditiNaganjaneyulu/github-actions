@@ -22,6 +22,7 @@ jobs:
 
       uses: rtCamp/action-slack-notify@v2
 
+
       env:
 
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
@@ -43,4 +44,4 @@ jobs:
 
         SLACK_USERNAME: rtCamp
 
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }} ggg gifts f
