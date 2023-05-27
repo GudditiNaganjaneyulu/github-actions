@@ -15,7 +15,9 @@ jobs:
   docker-build:
     runs-on: ubuntu-latest
     outputs:
-      local-image-test: ${{ steps.build.outputs.LOCAL_IMAGE_TEST }}
+      local-image-test:
+        id: output
+        value: ${{ steps.build.outputs.LOCAL_IMAGE_TEST }}
 
     steps:
       - name: Checkout code
