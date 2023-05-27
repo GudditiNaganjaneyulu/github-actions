@@ -27,7 +27,7 @@ jobs:
           export LOCAL_IMAGE_TEST=$IMAGE_NAME-test:$GITHUB_SHA
           docker build -t $LOCAL_IMAGE_TEST .
       - name: Save value to environment file
-        run: echo "LOCAL_IMAGE=$LOCAL_IMAGE_TEST" >> $GITHUB_ENV
+        run: echo "action_state=$LOCAL_IMAGE_TEST" >> "$GITHUB_ENV"
 
 
 
@@ -41,4 +41,4 @@ jobs:
         run: echo "------------------------------"
       - name: Read exported value
         run: |
-          echo "The exported value is $LOCAL_IMAGE"
+          echo "${{ env.action_state }}"
