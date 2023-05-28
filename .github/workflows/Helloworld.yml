@@ -1,0 +1,82 @@
+name: Execute Hello World
+
+on:
+
+  workflow_dispatch:
+
+    inputs:
+
+      approval:
+
+        description: 'Approve to execute'
+
+        required: true
+
+jobs:
+
+  execute:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Request Approval
+
+        id: approval
+
+        uses: actions/github-script@v5
+
+        with:
+
+          script: |
+
+            const response = await github.request('POST /repos/{owner}/{repo}/actions/runs/{run_id}/pending', {
+
+              owner: context.repo.owner,
+
+              repo: context.repo.repo,
+
+              run_id: context.runId
+
+            });
+
+            console.log(response.status);
+
+      - name: Wait for Approval
+
+        if: ${{ github.event.inputs.approval == 'true' }}
+
+        uses: actions/github-script@v5
+
+        with:
+
+          script: |
+
+            const response = await github.request('GET /repos/{owner}/{repo}/actions/runs/{run_id}', {
+
+              owner: context.repo.owner,
+
+              repo: context.repo.repo,
+
+              run_id: context.runId
+
+            });
+
+            console.log(response.data);
+
+            if (response.data.status === 'completed' && response.data.conclusion === 'success') {
+
+              process.exit(0);
+
+            } else {
+
+              process.exit(1);
+
+            }
+
+      - name: Print Hello World
+
+        if: success()
+
+        run: echo "Hello, World!"
+
