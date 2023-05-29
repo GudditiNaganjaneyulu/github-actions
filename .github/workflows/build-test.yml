@@ -15,8 +15,7 @@ jobs:
   docker-build:
     runs-on: ubuntu-latest
 
-    outputs:
-      local-image-test: ${{ steps.build.outputs.local-image-test }}
+
 
     steps:
       - name: Checkout code
@@ -28,29 +27,15 @@ jobs:
         run: |
           export LOCAL_IMAGE_TEST=$IMAGE_NAME-test:$GITHUB_SHA
           docker build -t $LOCAL_IMAGE_TEST .
-          echo "::set-output name=local-image-test::$LOCAL_IMAGE_TEST"
-      - name: Set the value
-        id: step_one
-        run: |
-          echo "action_state=yellow" >> "$GITHUB_ENV"
+          run: echo "image=$LOCAL_IMAGE_TEST" >> $GITHUB_OUTPUT
 
   second-job:
     needs: docker-build
     runs-on: ubuntu-latest
 
     steps:
-      - name: Print Local Image Test
-        run: echo "${{ needs.docker-build.outputs.local-image-test }}"
-      - name: Map Local Image to LOCAL_IMAGE
-        run: |
-          export "LOCAL_IMAGE=${{ needs.docker-build.outputs.local-image-test }}"
-          echo "$LOCAL_IMAGE"
-      - name: Use the value
-        id: step_two
-        run: |
-
-          echo "${{ env.action_state }}" 
-      - uses: actions/checkout@v2
+    - name: Use prior output
+      run: echo "The count was ${{ steps.stepid.outputs.image }}"
 
       - name: Slack Notification
 
