@@ -15,6 +15,7 @@ jobs:
       - name: checkout code
         uses: actions/checkout@v3
       - name: docker build
+        id: step1
         run: |
           DOCKER_IMAGE=${{ env.user }}/${{ env.image }}:${{ env.tag }}
           docker build -t $DOCKER_IMAGE .
