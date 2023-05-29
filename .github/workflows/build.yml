@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Build and test
         run: |
-          export LOCAL_IMAGE_TEST=${{ env.ECR_REPOSITORY_NAME }}/${{ env.IMAGE_NAME }}:${{ env. ECR_REGION }}
+          LOCAL_IMAGE_TEST=${{ env.ECR_REPOSITORY_NAME }}/${{ env.IMAGE_NAME }}:${{ env. ECR_REGION }}
           docker build -t $LOCAL_IMAGE_TEST .
         
       - id: step1
