@@ -50,15 +50,12 @@ jobs:
         run: |
 
           echo "${{ env.action_state }}" 
+      - uses: actions/checkout@v2
 
+      - name: Slack Notification
 
+        uses: rtCamp/action-slack-notify@v2
 
-     - uses: actions/checkout@v2
+        env:
 
-     - name: Slack Notification
-
-       uses: rtCamp/action-slack-notify@v2
-
-       env:
-
-         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
