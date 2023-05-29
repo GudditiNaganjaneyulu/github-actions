@@ -1,27 +1,17 @@
-name: Build and Deploy
-
-on:
-  push:
-    branches:
-      - main
-      - 'testing/*'
-      - 'staging/*'
-      - 'production/*'
-  workflow_dispatch:
+name: approval-test
+on: [push]
 
 jobs:
-  build:
+  job2:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [18.x]
-
+    needs: job1
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set up Docker build args
+        id: build-args
+        run: echo "::set-output name=require_approval::--require-approval"
+      - name: Docker build
+        run: |
+          DOCKER_IMAGE=${{ env.user }}/${{ env.image }}:${{ env.tag }}
+          docker build -t $DOCKER_IMAGE ${{ needs.job1.outputs.output1 }} ${{ steps.build-args.outputs.require_approval }}
