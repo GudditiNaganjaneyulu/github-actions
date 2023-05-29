@@ -5,6 +5,32 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: nelonoel/branch-name@v1.0.1
-    # Use branch name for whatever purpose
-    - run: echo ${BRANCH_NAME}
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Determine branch name
+        id: branch
+        run: echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV
+
+      - name: Set environment variable based on branch name
+        run: |
+          if [[ ${{ env.BRANCH_NAME }} == "develop" ]]; then
+            echo "env=dev"
+          elif [[ ${{ env.BRANCH_NAME }} == "testing/"* ]]; then
+            echo "env=qa"
+          elif [[ ${{ env.BRANCH_NAME }} == "main" ]]; then
+            echo "env=main"
+          else
+            echo "Unknown branch"
+            exit 1
+          fi
+
+      - name: Print branch name and environment
+        run: |
+          echo "Branch: ${{ env.BRANCH_NAME }}"
+          echo "Environment: ${{ env.env }}"
+
+      # Additional steps for the build process
+
+  finally:
+    # Actions to execute at the end
