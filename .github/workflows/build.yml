@@ -13,6 +13,8 @@ jobs:
       output1: ${{ steps.step1.outputs.test }}
       output2: ${{ steps.step2.outputs.test }}
     steps:
+      - name: checkout
+        uses: actions/checkout@v3
       - name: Build and test
         run: |
           LOCAL_IMAGE_TEST=${{ env.ECR_REPOSITORY_NAME }}/${{ env.IMAGE_NAME }}:${{ env. ECR_REGION }}
