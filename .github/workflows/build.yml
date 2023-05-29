@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       output1: ${{ steps.step1.outputs.test }}
+      output2: ${{ steps.step2.outputs.test }}
+      
     steps:
       - name: checkout code
         uses: actions/checkout@v3
@@ -20,6 +22,17 @@ jobs:
           DOCKER_IMAGE=${{ env.user }}/${{ env.image }}:${{ env.tag }}
           docker build -t $DOCKER_IMAGE .
           echo "test=${DOCKER_IMAGE}"  >> "$GITHUB_OUTPUT"
+      - name: Build, tag, and push docker image to Amazon ECR
+        id: step2
+        env:
+          REGISTRY: "gudditi"
+          REPOSITORY: "chat"
+          IMAGE_TAG: "latest"
+        run: |
+          DOCKER_IMAGE1=$REGISTRY/$REPOSITORY:$IMAGE_TAG
+          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+          echo "$LOCAL_IMAGE"
+          echo "test=${DOCKER_IMAGE1}"  >> "$GITHUB_OUTPUT"
 
   job2:
     runs-on: ubuntu-latest
@@ -28,4 +41,5 @@ jobs:
       - name: Use job1 outputs
         env:
           OUTPUT1: ${{ needs.job1.outputs.output1 }}
-        run: echo "$OUTPUT1"
+          OUTPUT2: ${{ needs.job1.outputs.output2 }}
+        run: echo "$OUTPUT1 $OUTPUT2"
