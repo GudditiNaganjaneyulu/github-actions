@@ -1,29 +1,29 @@
-name: Build and Test
+name: Your Workflow
 
 on:
-
-  push:
-
-    branches:
-
-      - main
-
   workflow_dispatch:
 
 jobs:
-
-  build-and-test:
-
+  build:
     runs-on: ubuntu-latest
 
+    steps:
+      - name: Build Step
+        run: echo "Build step"
+
+  manual-approval:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
 
     steps:
-      - name: Checkout main repository
-        uses: actions/checkout@v3
-        with:
-          ssh-key: ${{ secrets.SSH_TOKEN}}
-          repository: GudditiOrg/NodeJs-Docker-APP
-      - name: run commands
-        run:  |
-          ls -ltr
-          docker build -t test .
+      - name: Manual Approval Step
+        run: echo "Manual approval required"
+
+  deploy:
+    needs: manual-approval
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy Step
+        run: echo "Deploy step"
