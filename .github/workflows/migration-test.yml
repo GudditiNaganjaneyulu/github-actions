@@ -8,23 +8,10 @@ jobs:
 
     steps:
       - name: Step 1
-        run: echo "This is step 1"
+        run: echo "sample step"
+      - name: Manual Workflow Approval
+        uses: trstringer/manual-approval@v1.9.0
+      - name: docker build
+        run: docker build -t gudditi/sample:latest .
+      
 
-      - name: Manual Approval Step
-        id: manual_approval
-        run: echo "This step requires manual approval"
-        if: ${{ needs.approval.outputs.approve == 'true' }}
-
-      - name: Step 3
-        run: echo "This is step 3"
-
-  approval:
-    runs-on: ubuntu-latest
-    outputs:
-      approve: ${{ steps.approve.outputs.approve }}
-
-    steps:
-      - name: Manual Approval
-        id: approve
-        run: echo "::set-output name=approve::true"
-        if: github.event_name == 'pull_request'
