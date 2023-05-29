@@ -1,20 +1,26 @@
-name: Manual Approval Workflow
+name: Docker Build Workflow
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Step 1
-        run: echo "sample step"
-      - name: Manual Workflow Approval
-        uses: trstringer/manual-approval@v1.9.0
-      - name: docker build
-        run: docker build -t gudditi/sample:latest .
-        with:
-          approvers: myteam
-          minimum-approvals: 1
-      
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
+      - name: Build Docker image
+        run: docker build -t gudditi/image .
+
+      - name: Manual Approval
+        id: approval
+        run: echo "::set-output name=approve::true"
+        if: github.event_name == 'pull_request'
+
+      - name: Push Docker image
+        run: docker push gudditi/image
+        if: ${{ needs.build.outputs.approve == 'true' }}
