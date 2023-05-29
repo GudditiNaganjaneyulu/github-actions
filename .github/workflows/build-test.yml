@@ -34,8 +34,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Use prior output
-      run: echo "The count was ${{ steps.stepid.outputs.image }}"
+      - name: Use prior output
+        run: echo "The count was ${{ steps.stepid.outputs.image }}"
 
       - name: Slack Notification
 
