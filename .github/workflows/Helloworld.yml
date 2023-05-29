@@ -8,7 +8,9 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
-
+      - name: Determine branch name
+        id: branch
+        run: echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV
 
       - name: Set environment variable based on branch name
         run: |
