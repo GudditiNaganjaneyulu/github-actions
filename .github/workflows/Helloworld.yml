@@ -1,48 +1,23 @@
-name: Execute Hello World
-
+name: branching
 on:
-
+  push:
+    branches:
+      - main
+      - test
   workflow_dispatch:
 
-    inputs:
-
-      approval:
-
-        description: 'Approve to execute'
-
-        required: true
-
 jobs:
-
-  execute:
-
+  branching:
     runs-on: ubuntu-latest
-
     steps:
+      - name: Determine Deployment Environment
+        id: set-env
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/develop" ]]; then
+            echo "::set-output name=env::dev"
+          elif [[ "${{ github.ref }}" == "refs/heads/testing/"* ]]; then
+            echo "::set-output name=env::qa"
+          fi
 
-      - name: Print Hello World
-
-        run: echo "Hello, World!"
-
-      - name: Request Approval
-
-        if: ${{ github.event.inputs.approval == 'true' }}
-
-        uses: actions/github-script@v5
-
-        with:
-
-          script: |
-
-            const response = await github.request('POST /repos/{owner}/{repo}/actions/runs/{run_id}/approve', {
-
-              owner: context.repo.owner,
-
-              repo: context.repo.repo,
-
-              run_id: context.runId
-
-            });
-
-            console.log(response.status);
-
+      - name: cdk diff
+        run: echo "${{ steps.set-env.outputs.env }}"
