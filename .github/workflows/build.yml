@@ -13,8 +13,10 @@ jobs:
       output1: ${{ steps.step1.outputs.test }}
       output2: ${{ steps.step2.outputs.test }}
     steps:
-      - name: docker nuild
-        run: |  
+      - name: Build and test
+        id: build
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
           export LOCAL_IMAGE_TEST=$IMAGE_NAME-test:$GITHUB_SHA
           docker build -t $LOCAL_IMAGE_TEST .
         
