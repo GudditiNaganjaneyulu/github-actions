@@ -1,6 +1,11 @@
 name: build
 on: push
 
+env:
+  REGISTRY: example-registry
+  REPOSITORY: example-repo
+  IMAGE_TAG: latest
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -29,6 +34,10 @@ jobs:
         run: |
           echo "Branch: ${{ env.BRANCH_NAME }}"
           echo "Environment: ${{ env.env }}"
+      - name: image name
+        run: |
+          image=$REGISTRY/$REPOSITORY:$IMAGE_TAG
+          echo "$image"
 
       # Additional steps for the build process
 
