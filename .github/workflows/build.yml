@@ -1,34 +1,32 @@
-name: Outputs -testing
+name: docker-output-test
 on: [push]
+
 env:
-  ECR_REGION: us-east-1
-  ECR_REPOSITORY_NAME: "chat"
-  IMAGE_NAME: "chat"
-  
+  user: "gudditi"
+  image: "chat"
+  tag: "latest"
 jobs:
   job1:
     runs-on: ubuntu-latest
     # Map a step output to a job output
     outputs:
       output1: ${{ steps.step1.outputs.test }}
-      output2: ${{ steps.step2.outputs.test }}
+
     steps:
-      - name: checkout
+      - name: checkout code
         uses: actions/checkout@v3
-      - name: Build and test
+      - name: docker build
         run: |
-          LOCAL_IMAGE_TEST=${{ env.ECR_REPOSITORY_NAME }}/${{ env.IMAGE_NAME }}:${{ env. ECR_REGION }}
-          docker build -t $LOCAL_IMAGE_TEST .
-        
+          DOCKER_IMAGE=${{ env.user}}/${{ env.image }}:${{ env.tag }}
+          docker build -t $DOCKER_IMAGE .
       - id: step1
-        run: echo "test=$LOCAL_IMAGE_TEST" >> "$GITHUB_OUTPUT"
-      - id: step2
-        run: echo "test=world" >> "$GITHUB_OUTPUT"
+        run: echo "test=$DOCKER_IMAGE" >> "$GITHUB_OUTPUT"
+
   job2:
     runs-on: ubuntu-latest
     needs: job1
     steps:
       - env:
           OUTPUT1: ${{needs.job1.outputs.output1}}
-          OUTPUT2: ${{needs.job1.outputs.output2}}
-        run: echo "$OUTPUT1 $OUTPUT2"
+
+        run: echo "$OUTPUT1"
