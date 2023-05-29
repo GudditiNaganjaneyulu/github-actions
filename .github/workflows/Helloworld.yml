@@ -16,5 +16,6 @@ jobs:
       
       - name: Print branch name
         run: echo "Branch: ${{ github.ref }}"
-      - name: Branch name
-        run: echo running on branch ${GITHUB_REF##*/}
+      
+      - name: Print current branch name
+        run: echo "Running on branch: ${GITHUB_REF#refs/heads/}"
