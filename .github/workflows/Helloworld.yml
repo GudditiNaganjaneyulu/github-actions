@@ -21,3 +21,6 @@ jobs:
 
       - name: cdk diff
         run: echo "${{ steps.set-env.outputs.env }}"
+      - name: cdk diff
+        run: echo "${{ steps.set-env.outputs.env }} wanted to print ${{ steps.set-env.outputs.env }} value only"
+        shell: bash
