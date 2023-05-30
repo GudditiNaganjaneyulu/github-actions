@@ -1,16 +1,23 @@
-name: branch-output-test
-on: [push]
+name: AWS Test Workflow
+
+on:
+  push:
+    branches:
+      - '*'
 
 jobs:
-  job1:
+  deploy:
     runs-on: ubuntu-latest
-    # Map a step output to a job output
 
     steps:
-      - name: Configure AWS credentials from Test account
+      - name: Set Branch Name
+        run: echo "BRANCH_NAME=${GITHUB_REF/refs\/heads\//}" >> $GITHUB_ENV
+
+      - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          role-to-assume: ${{ secrets[format('{0}_ARN', upper(github.ref))] }}
           aws-region: us-east-1
-      - name: s3 list 
-        run: aws s3 ls 
+          role-to-assume: ${{ secrets[format('{0}_ARN', env.BRANCH_NAME)] }}
+
+      - name: S3 List
+        run: aws s3 ls
