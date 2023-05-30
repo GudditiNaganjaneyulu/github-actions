@@ -7,11 +7,11 @@ jobs:
     # Map a step output to a job output
 
     steps:
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v2
-      with:
-        role-to-assume: ${{ secrets[format('{0}_arn', github.ref)] }}
-        aws-region: us-east-1
-        mask-aws-account-id: 'no'
-    - name: s3 list 
-      run: aws s3 ls 
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets[format('{0}_arn', github.ref)] }}
+          aws-region: us-east-1
+          mask-aws-account-id: 'no'
+      - name: s3 list 
+        run: aws s3 ls 
