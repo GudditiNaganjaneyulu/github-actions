@@ -10,7 +10,7 @@ jobs:
       - name: Configure AWS credentials from Test account
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          role-to-assume: ${{ secrets[format('{0}_arn', github.ref)] }}
+          role-to-assume: ${{ secrets[format('{0}_ARN', upper(github.ref))] }}
           aws-region: us-east-1
       - name: s3 list 
         run: aws s3 ls 
