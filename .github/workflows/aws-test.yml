@@ -1,0 +1,17 @@
+name: branch-output-test
+on: [push]
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    # Map a step output to a job output
+
+    steps:
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        role-to-assume: ${{ secrets[format('{0}_arn', github.ref)] }}
+        aws-region: ${{ env.ECR_REGION }}
+        mask-aws-account-id: 'no'
+    - name: s3 list 
+      run: aws s3 ls 
