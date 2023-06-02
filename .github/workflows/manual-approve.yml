@@ -1,6 +1,5 @@
 name: Hello World Workflow
 
-
 on:
   workflow_dispatch:
     inputs:
@@ -10,6 +9,7 @@ on:
 
 jobs:
   build:
+    if: ${{ github.event.inputs.approval == 'true' }}
     runs-on: ubuntu-latest
 
     steps:
