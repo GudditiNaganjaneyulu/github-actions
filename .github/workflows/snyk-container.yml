@@ -26,6 +26,14 @@ permissions:
   contents: read
 
 jobs:
+  approve: 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for approval
+        uses: your-github-user/manual-approval@your-dev-branch
+        with:
+          secret: ${{ secrets.TOKEN }}
+          approvers: GudditiNaganjaneyulu
   snyk:
     permissions:
       contents: read # for actions/checkout to fetch code
