@@ -1,44 +1,26 @@
-name: Manual Approval Workflow
+name: Hello World Workflow
 
 on:
   workflow_dispatch:
+    inputs:
+      approval:
+        description: 'Approve with keyword "true"'
+        required: false
 
 jobs:
-  build:
+  hello_world_job:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Build
-        run: |
-          echo "Building..."
+      - name: Print Hello World
+        run: echo "Hello, World!"
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
+      - name: Approve with keyword
+        if: ${{ github.event.inputs.approval == 'true' }}
+        run: echo "Workflow approved with keyword 'true'"
 
-    steps:
-      - name: Manual Approval
-        id: approval
-        if: github.event_name == 'workflow_dispatch'
-        uses: peter-evans/create-issue-from-file@v2
-        with:
-          token: ${{ secrets.TOKEN }}
-          title: Manual Approval
-          body: Please review and approve the changes
-
-      - name: Deploy
-        if: needs.approval.result == 'approved'
-        run: |
-          echo "Deploying..."
-
-  hello:
-    needs: deploy
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Hello World
-        run: |
-          echo "Hello, World!"
+      - name: Approve with icon click
+        if: ${{ github.event_name == 'workflow_dispatch' && !github.event.inputs.approval }}
+        run: echo "Workflow approved by clicking the icon"
