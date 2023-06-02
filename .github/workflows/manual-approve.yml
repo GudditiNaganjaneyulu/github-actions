@@ -38,13 +38,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Request test approval
-        id: test_approval
+      - name: Run tests
+        run: |
+          # Add your test commands here
+
+      - name: Request approval
+        id: test-approval
         uses: appleboy/approval@v0.0.1
         with:
-          keyword: "test"
+          keyword: "true"
 
-      - name: Run tests
-        if: steps.test_approval.outputs.approved == 'true'
+      - name: Send test results
+        if: steps.test-approval.outputs.approved == 'true'
         run: |
-          # Add your test execution command here
+          # Add your test result notification command here
