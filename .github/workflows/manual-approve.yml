@@ -13,22 +13,7 @@ jobs:
       - name: Build and test
         run: |
           # Add your build and test commands here
-
-      - name: Request approval
-        id: approval
-        uses: appleboy/approval@v0.0.1
-        with:
-          keyword: "true"
-
-      - name: Send notification
-        if: steps.approval.outputs.approved == 'true'
-        run: |
-          # Add your notification command here
-
-      - name: Deploy
-        if: steps.approval.outputs.approved == 'true'
-        run: |
-          # Add your deployment command here
+          echo "hello world"
 
   test:
     needs: build
@@ -38,17 +23,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Run tests
-        run: |
-          # Add your test commands here
-
-      - name: Request approval
-        id: test-approval
-        uses: appleboy/approval@v0.0.1
-        with:
-          keyword: "true"
-
-      - name: Send test results
-        if: steps.test-approval.outputs.approved == 'true'
-        run: |
-          # Add your test result notification command here
+      - name: Approve with keyword
+        if: ${{ github.event.inputs.approval == 'true' }}
+        run: echo "Workflow approved with keyword 'true'"
+        
+      - name: echo
+        run: echo "running"
