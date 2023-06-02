@@ -1,0 +1,15 @@
+on:
+  workflow_run:
+    workflows:
+      - "Your main workflow name"
+    types:
+      - requested
+
+jobs:
+  manual_approval:
+    name: Manual Approval
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.event == 'workflow_run' && github.event.workflow_run.conclusion == 'requested'
+    steps:
+      - name: Display Approval Message
+        run: echo "Please review and approve the changes."
