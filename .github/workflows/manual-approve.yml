@@ -1,15 +1,36 @@
+name: Manual Approval Workflow
+
 on:
-  workflow_run:
-    workflows:
-      - "Your main workflow name"
-    types:
-      - requested
+  workflow_dispatch:
 
 jobs:
-  manual_approval:
-    name: Manual Approval
+  build:
     runs-on: ubuntu-latest
-    if: github.event.workflow_run.event == 'workflow_run' && github.event.workflow_run.conclusion == 'requested'
+
     steps:
-      - name: Display Approval Message
-        run: echo "Please review and approve the changes."
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build
+        run: |
+          echo "Building..."
+
+      - name: Manual Approval
+        id: approval
+        if: github.event_name == 'workflow_dispatch'
+        uses: peter-evans/create-issue-from-file@v2
+        with:
+          token: ${{ secrets.TOKEN }}
+          title: Manual Approval
+          body: Please review and approve the changes
+
+      - name: Deploy
+        needs: [approval]
+        if: needs.approval.result == 'approved'
+        run: |
+          echo "Deploying..."
+
+      - name: Hello World
+        needs: [deploy]
+        run: |
+          echo "Hello, World!"
