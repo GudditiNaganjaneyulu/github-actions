@@ -1,6 +1,12 @@
 name: Hello World Workflow
 
-on: [push]
+
+on:
+  workflow_dispatch:
+    inputs:
+      approval:
+        description: 'Approve with keyword "true"'
+        required: true
 
 jobs:
   build:
