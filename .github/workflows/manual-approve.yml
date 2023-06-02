@@ -1,26 +1,50 @@
 name: Hello World Workflow
 
-on:
-  workflow_dispatch:
-    inputs:
-      approval:
-        description: 'Approve with keyword "true"'
-        required: false
+on: [push]
 
 jobs:
-  hello_world_job:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Print Hello World
-        run: echo "Hello, World!"
+      - name: Build and test
+        run: |
+          # Add your build and test commands here
 
-      - name: Approve with keyword
-        if: ${{ github.event.inputs.approval == 'true' }}
-        run: echo "Workflow approved with keyword 'true'"
+      - name: Request approval
+        id: approval
+        uses: appleboy/approval@v0.0.1
+        with:
+          keyword: "true"
 
-      - name: Approve with icon click
-        if: ${{ github.event_name == 'workflow_dispatch' && !github.event.inputs.approval }}
-        run: echo "Workflow approved by clicking the icon"
+      - name: Send notification
+        if: steps.approval.outputs.approved == 'true'
+        run: |
+          # Add your notification command here
+
+      - name: Deploy
+        if: steps.approval.outputs.approved == 'true'
+        run: |
+          # Add your deployment command here
+
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Request test approval
+        id: test_approval
+        uses: appleboy/approval@v0.0.1
+        with:
+          keyword: "test"
+
+      - name: Run tests
+        if: steps.test_approval.outputs.approved == 'true'
+        run: |
+          # Add your test execution command here
