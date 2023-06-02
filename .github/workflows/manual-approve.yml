@@ -15,6 +15,11 @@ jobs:
         run: |
           echo "Building..."
 
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Manual Approval
         id: approval
         if: github.event_name == 'workflow_dispatch'
@@ -25,12 +30,15 @@ jobs:
           body: Please review and approve the changes
 
       - name: Deploy
-        needs: [approval]
         if: needs.approval.result == 'approved'
         run: |
           echo "Deploying..."
 
+  hello:
+    needs: deploy
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Hello World
-        needs: [deploy]
         run: |
           echo "Hello, World!"
