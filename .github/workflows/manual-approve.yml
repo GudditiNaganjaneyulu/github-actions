@@ -1,15 +1,10 @@
 name: Hello World Workflow
 
 on:
-  workflow_dispatch:
-    inputs:
-      approval:
-        description: 'Approve with keyword "true"'
-        required: true
+  workflow_dispatch
 
 jobs:
   build:
-    if: ${{ github.event.inputs.approval == 'true' }}
     runs-on: ubuntu-latest
 
     steps:
@@ -24,13 +19,20 @@ jobs:
   test:
     needs: build
     runs-on: ubuntu-latest
+    if: github.event.inputs.approval == 'true'
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Prompt for approval
+        id: approval
+        run: |
+          echo "Do you want to approve the workflow? Enter 'true' to approve."
+          echo "::set-output name=approval::${{ steps.approval.outputs.approval }}"
+
       - name: Approve with keyword
-        if: ${{ github.event.inputs.approval == 'true' }}
+        if: steps.approval.outputs.approval == 'true'
         run: echo "Workflow approved with keyword 'true'"
         
       - name: echo
