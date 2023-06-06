@@ -24,16 +24,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Prompt for approval
-        id: approval
-        run: |
-          echo "Do you want to approve the workflow? Enter 'true' to approve."
-          echo "::set-output name=approval::${{ steps.approval.outputs.approval }}"
-
-      - name: Approve with keyword
-        if: steps.approval.outputs.approval == 'true'
-        run: echo "Workflow approved with keyword 'true'"
-        
-      - name: echo
-        run: echo "running"
+      - name: Wait for approval
+        uses: trstringer/manual-approval@v1.9.0
+        with:
+          secret: ${{ secrets.TOKEN_PAT }}
+          approvers: GudditiNaganjaneyulu
