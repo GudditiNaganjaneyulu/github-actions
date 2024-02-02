@@ -8,9 +8,18 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - id: install-aws-cli
+      - name: install-aws-cli
+        id: install-aws-cli
         uses: unfor19/install-aws-cli-action@v1
         with:
           version: 1
-      - run: aws --version
-        shell: bash
+
+      - name: aws version check    
+        run: aws --version
+        shell: bash 
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - run: |
+          ls -ltr
+          pwd
