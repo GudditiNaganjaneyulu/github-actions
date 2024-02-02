@@ -1,0 +1,16 @@
+name: aws-s3
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - id: install-aws-cli
+        uses: unfor19/install-aws-cli-action@v1
+        with:
+          version: 1
+      - run: aws --version
+        shell: bash
